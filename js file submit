@@ -1,0 +1,28 @@
+ onInpFileSubmit(e) {
+    
+    e.preventDefault();
+      
+
+      let pr = e.target.userfile.files[0];
+      let obj = JSON.stringify(pr);
+      let chngFile = this.state.theFile;
+
+      let form = {
+        'file': pr
+      }
+
+      let data = new FormData();
+      data.append('file', new Blob([pr]));
+      // data.append("xml", pr);
+      
+      fetch('/2019/react/stanokCatalog.php', {        
+        method: "POST",
+        body: data
+      })
+      .then(response => response.json())
+      .then(result => {   
+        console.log(result);
+        this.setState({fileXmlChng: false, h1: 'Файл загружен', nazvanie: ''});        
+      })
+      .catch(error => console.log(error))
+}
